@@ -4,9 +4,9 @@
 
 require 'csv'
 puts "start"
-data = CSV.parse(File.read("/Users/andreasmertgens/Desktop/kds_v2/v466.csv"), {:headers => true, :header_converters => :symbol})
-data2 = CSV.parse(File.read("/Users/andreasmertgens/Desktop/kds_v2/2433.csv"), {:headers => true, :header_converters => :symbol})
-data3 = CSV.parse(File.read("/Users/andreasmertgens/Desktop/kds_v2/Python/Phase.csv"), {:headers => true, :header_converters => :symbol, converters: :all})
+data = CSV.parse(File.read("/Users/andreasmertgens/Desktop/kds_v2/Python/Data/v466.csv"), {:headers => true, :header_converters => :symbol})
+data2 = CSV.parse(File.read("/Users/andreasmertgens/Desktop/kds_v2/Python/Data/2433.csv"), {:headers => true, :header_converters => :symbol})
+data3 = CSV.parse(File.read("/Users/andreasmertgens/Desktop/kds_v2/Python/Transformation/Phase.csv"), {:headers => true, :header_converters => :symbol, converters: :all})
 puts "data loaded"
 
 ##########################
