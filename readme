@@ -1,0 +1,32 @@
+Ebenen der Darstellung und Datenaufbereitung
+
+
+In der aktuellen Version des Projektes besteht die eigentlich Sonification aus zwei „Klangebenen“, die jeweils wiederum aus zwei Tonspuren bestehen. Es werden also insgesamt vier Datenreihen in Klang umgewandelt, die durch die vier Drehregler am Radio entsprechend ein- und ausgeblendet werden können.
+
+
+Erste Ebene: (Samples)
+Werte „bmag“ (Magnitude) über alle vorliegenden Photoplatten in chronologischer Reihenfolge. Dieser Werte konnten direkt aus den exportieren “timecurves” gelesen werden.
+
+
+Zweite Ebene (Synthesizer)
+Um die Schwankungen des bmag Wertes über die durchschnittliche Periode eines Doppelsterns deutlich zu machen, wurde die Daten mit einem Python Skript transformiert. Dieses unterteilt die Periode in beliebig kleine Abschnitte (hier 100) und summiert für jeden dieser Abschnitte (z.b von 0.03 bis 0.04) alle bmag Werte, die in diesem Perioden-Abschnitt gemessen wurden und errechnet daraus den Durchschnitt. 
+
+
+
+
+Technische Umsetzung der Sonifcation
+
+
+Für die eigentliche Sonification wird die offenen Musiksoftware “Sonic Pi” benutzt. Diese Software erlaubt mittels Ruby Code die direkte Erzeugung von Klang der auch live manipuliert werden kann.  
+
+
+Das Skript führt die folgende Schritten aus.:
+1. Daten aus den insgesamt drei CSV Daten einlesen.
+2. Die Werte bmag (liegen in den Daten meist zwischen 10 und 12) werden  zunächst auf einen Wert zwischen 0 und 1 (0 = tiefster in der Messreihe vorkommende Wert, 1 höchster Wert) gemappt. (Variable “factor”)
+3. Für die Daten aus der timecurve werden Samples benutzt. Die Tonhöhe (oder korrekterweise Abspielgeschwindigkeit) dieser Samples wird mit dem in 2. berechneten Faktor modifiziert. 
+Beispiel: Ein besonders hoher bmag Werte in der Messreihe wird in Schritt 2 auf den Faktor 0,8 gemappt.  Die Sample Geschwindigkeit berechnet sich aus der Formel „rate: (factor * 3)“  Also 3 * 0,8 = 2,4. Das Sample wird also mit 2,4 facher Geschwindigkeit abgespielt und die Tonhöhe ist dementsprechend höher
+4. Für die Daten der Periode werden die in Sonic Pi integrieren Synthesizer benutzt. Hierfür wird der in 2. berechnete Faktor  mit der Formel „((factor+1)+50)” auf Midi Daten gemappt.
+Ein Faktor von 0,3 ergibt somit z.B den Wert 51.3 was in etwa einen D#4 entspricht.
+Die entsprechende Dateien im github repository sind schon oder werden noch mit weiteren detaillierten Kommentaren angereichert so dass der Code auch für andere Sonification Projekte nachvollziehbar und wiederverwendbar wird.  
+
+
